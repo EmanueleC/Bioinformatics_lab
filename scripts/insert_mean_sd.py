@@ -2,7 +2,7 @@
 import math
 import sys
 
-# command line arguments: the wiggle file with the insertions
+#usage: python (path to insert_mean_sd.py) [wiggle file with insertions length]
 
 f = open(sys.argv[1],"rb")
 

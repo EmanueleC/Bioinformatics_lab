@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 
-# command line arguments: the lact.sam file and the size of the reference genome
+#usage: python (path to insert.py) [lact.sam] [size of reference genome] > output_wiggle_file.wig
 
 n = int(sys.argv[2])
 
@@ -17,7 +17,7 @@ for line in f.readlines():
 
 f.close()
 
-print "fixedStep chrom=genome start=1 step=1 span=1\n"
+print "fixedStep chrom=genome start=1 step=1 span=1\n" # print the heading of the wiggle file
 
 for i in range (0,n):
 	print genome_insert[i]

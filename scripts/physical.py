@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 
-# command line arguments: the lact.sam file and the size of the reference genome
+#usage: python (path to physical.py) [lact.sam] [size of reference genome] > output_wiggle_file.wig
 
 n = int(sys.argv[2])
 

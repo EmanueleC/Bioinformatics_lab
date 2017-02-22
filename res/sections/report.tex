@@ -59,9 +59,13 @@ interface with the coverage (\texttt{lact\_sorted.bam.Coverage}) and mate pairs
   \label{fig:coverage_matepairs}
 \end{figure}
 
-  \item We can observe that in the figure \ref{fig:pairs} that there is a long
-deletion. Reads that are colored red have larger size than expected, 
-and therefore indicate possible deletions.
+  \item In the following examples I used some of the wiggle files produced in
+part 2 of the practicals because they help in finding structural variations.
+
+\textbf{Examples}: \\
+
+It can be observed that in figure \ref{fig:pairs} there is
+a long deletion.
 
 \begin{figure}[h]
   \centering
@@ -70,15 +74,22 @@ and therefore indicate possible deletions.
   \label{fig:pairs}
 \end{figure}
 
-Reads that are colored blue have smaller size than expected, and therefore
-indicate insertions. We can observe some of them in figure
-\ref{fig:pairs2}.
+In figure \ref{fig:small_del} there is a short deletion.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.2]{img/pairs2}
-  \caption{Some insertions}
-  \label{fig:pairs2}
+  \includegraphics[scale=0.2]{img/small_del}
+  \caption{Small deletion}
+  \label{fig:small_del}
+\end{figure}
+
+In figure \ref{fig:long_insertion} there is a long insertion.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{img/long_insertion}
+  \caption{Long insertion}
+  \label{fig:long_insertion}
 \end{figure}
 
 \end{enumerate}
@@ -113,8 +124,8 @@ length of the reference genome:
   \item Python script for sequence coverage, given the sam file and
 length of the reference genome:
 \lstinputlisting[language=Python]{scripts/sequence.py}
-The wig track for sequence coverage generated is almost similar to the IGV
-track.
+The wiggle file generates a track for sequence coverage and it is almost
+similar to the IGV track.
 So far the tracks created are the physical coverage and the genetic coverage:
 
 \begin{figure}[h]
@@ -127,11 +138,27 @@ So far the tracks created are the physical coverage and the genetic coverage:
 length of the reference genome:
 \lstinputlisting[language=Python]{scripts/insert.py}
 
-In the previous calculation I suppose that the two reads for a mate pair have
+In the previous calculation I assume that the two reads for a mate pair have
 the same length.
 
-Python script to calculate the mean and the standard deviation, given the
-wiggle file with the insert lengths:
+So the length of the insert can be calculated by the following formula: \\
+
+$matePos = Position\_of\_the\_mate$
+
+$length = length\_of\_the\_aligned\_sequence$
+
+$start = leftmost\_mapping\_position$ \\
+
+$length\_of\_the\_insert = matePos + length - start$
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.35]{img/insert_img}
+  \caption{The length of the inserts has been calculated with this image as a reference}
+\end{figure}
+
+Python script to calculate the mean and the standard deviation, given the sam file,
+length of the reference genome, the mean and the standard deviation.
 \lstinputlisting[language=Python]{scripts/insert_mean_sd.py}
 
 The mean is: \textbf{2220} \\
@@ -139,18 +166,19 @@ The mean is: \textbf{2220} \\
 The standard deviation has been calculated by the formula: 
 
 \begin{equation}
-SD = \sqrt{\frac{\Sigma|x-\bar{x}|^2}{n}}
+\sigma = \frac{1}{n}\sqrt{n*\sum_{i=1}^{n} x_i^2 - (\sum_{i=1}^{n} x_i)^2}
 \end{equation}
 
-and its value is: $\sigma = \textbf{203.495}$ without discarding any value.
+and its value is: $\sigma = \textbf{203.495}$
 
-  \item Python script to calculate the inserts above or below the standard
-deviation by thrice \textbf{(n = 3)}, given the wiggle file with the insert
-lengths:
+  \item Python script to calculate the inserts above or below \textbf{(n = 2)} standard
+deviation, given the wiggle file with the insert lengths:
 \lstinputlisting[language=Python]{scripts/deviations.py}
 
-In figure \ref{img:plot} we can see that some insert are longer than 12000 bases.
-The longest insert is 16281 bases long.
+In figure \ref{img:plot} are reported the length of the inserts (y axis) that are above/below
+\textbf{n=3} standard deviation.
+It can see that some insert are longer than 12000 bases.
+The longest insert is 16281 bases long. \\
 
 \begin{figure}[h]
   \centering
@@ -158,5 +186,34 @@ The longest insert is 16281 bases long.
   \caption{Plot for length of inserts}
   \label{img:plot}
 \end{figure}
+
+In figure \ref{img:all_tracks} all tracks from Part 2 of practicals can be seen. \\
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.2]{img/all_tracks}
+  \caption{All tracks required by Part 2 of practicals}
+  \label{img:all_tracks}
+\end{figure}
+
+\newpage
+\textbf{Observation on the scripts}: all the scripts are very short and simple
+and they are thought to be used in the command line.
+Almost every script uses an array that has the length of the reference genome.
+This is very inefficient.
+
+\newpage
+\subsection{References}
+
+In order to make Part 1 and Part 2 of practicals I used the following references:
+
+\begin{itemize}
+  \item \textbf{Mate-pairs and paired-ends} from the course slides
+  \item \textbf{All the documents in the practicals directory} (unix.pdf, wig.pdf, physical.pdf)
+  \item \textbf{IGV User Guide › Viewing Alignments › Interpreting Color by Insert Size}
+\url{http://software.broadinstitute.org/software/igv/interpreting_insert_size}
+  \item \textbf{Sequence Alignment/Map Format Specification} \url{http://samtools.github.io/hts-specs/SAMv1.pdf}
+  \item \textbf{Decoding SAM flags} \url{https://broadinstitute.github.io/picard/explain-flags.html}
+\end{itemize}
 
 \end{enumerate}
